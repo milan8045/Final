@@ -1,0 +1,13 @@
+<script>
+  function selectUser(userId) {
+    // e.preventDefault();
+    fetch(`/getSingleUser?userId=${userId}`)
+      .then((response) => {
+        response.json();
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>

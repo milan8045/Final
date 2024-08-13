@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/head'); %>
+  <body>
+    <%- include('layouts/header'); %>
+    <main>
+      <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>License No</th>
+              <th>Make</th>
+              <th>Model</th>
+              <th>Test Type</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0;i< allApps.length;i++){ %>
+            <tr>
+              <td><%= allApps[i].firstName %></td>
+              <td><%= allApps[i].licenseNo %></td>
+              <td><%= allApps[i].carDetails?.make %></td>
+              <td><%= allApps[i].carDetails?.model %></td>
+              <td><%= allApps[i].testType %></td>
+              <td class="<%= allApps[i].result=='Pass'? 'Pass': 'Fail' %>">
+                <%= allApps[i].result? allApps[i].result: "NA" %>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/head'); %>
+  <body>
+    <%- include('layouts/header'); %>
+    <main>
+      <div class="container">
+        <form action="/gUpdate" method="post">
+          <h3><b>Personal Details</b></h3>
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input
+              
+              type="text"
+              class="form-control"
+              name="firstName"
+              id="firstName"
+              value="<%= response.firstName || '' %>"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input
+              
+              type="text"
+              class="form-control"
+              name="lastName"
+              id="lastName"
+              value="<%= response.lastName || '' %>"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="licenseNo" class="form-label">License Number</label>
+            <input
+              
+              type="text"
+              class="form-control"
+              name="licenseNo"
+              id="licenseNo"
+              value="<%= response.licenseNo || '' %>"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input
+              
+              type="number"
+              class="form-control"
+              name="age"
+              id="age"
+              value="<%= response.age %>"
+            />
+          </div>
+
+          <h3><b>Vehicle Details</b></h3>
+          <div class="mb-3">
+            <label for="make" class="form-label">Make</label>
+            <input
+              type="text"
+              class="form-control"
+              name="make"
+              id="make"
+              value="<%= response.carDetails?.make || '' %>"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="model" class="form-label">Model</label>
+            <input
+              type="text"
+              class="form-control"
+              name="model"
+              id="model"
+              value="<%= response.carDetails.model || '' %>"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="year" class="form-label">Year</label>
+            <input
+              type="number"
+              class="form-control"
+              name="year"
+              id="year"
+              value="<%= response.carDetails.year %>"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="plateNo" class="form-label">Plate Number</label>
+            <input
+              type="text"
+              class="form-control"
+              name="plateNo"
+              id="plateNo"
+              value="<%= response.carDetails.plateNo %>"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <% if(notBooked) { %>
+          
+          <form
+          method="get"
+          action="/g"
+          id="gAppointmentForm"
+          >
+          <h3 class="mt-5"><b>Book Appointment</b></h3>
+          <div>
+            <label for="date">Select Date</label>
+            <input
+              class="form-control"
+              type="date"
+              name="date"
+              
+              id="gDate"
+              value="<%= date %>"
+              min="<%= minDate %>"
+              onchange="this.form.submit()"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="time" class="form-label">Select Time</label>
+            <select class="form-control" name="time" id="gTime">
+              <% for (let i=0; i< timeSlots.length ;i++){ %>
+              <option value="<%- timeSlots[i].time %>" 
+                <%- timeSlots[i].isTimeSlotTaken && "disabled" %>>
+                <%- timeSlots[i].time %>
+              </option>
+              <%}%>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Book Test</button>
+
+        </form>
+        <%} else if(slotDetails) {%> 
+        <div class="bookingDetails">
+          <p>
+            Test Booked:
+            <span><%= response.testType %></span>
+          </p>
+          <p>
+            Booking Date:
+            <span><%= slotDetails.date.toDateString()%></span>
+          </p>
+          
+          <p>
+            Booking Time:
+            <span><%= slotDetails.time%></span>
+          </p>
+        <%} %>
+        <% if(response.result) { %>
+            <p>
+              Comment:
+              <span><%= response.comment %></span>
+            </p>
+            
+            <p>
+              Result:
+              <span><%= response.result %></span>
+            </p>
+          </div> 
+        <%} %>
+      </div>
+    </main>
+  </body>
+  
+<script>
+  document
+    .getElementById("gAppointmentForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      fetch("/gUpdate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: document.getElementById("gDate").value,
+          time: document.getElementById("gTime").value,
+        }),
+      })
+        .then((response) => {
+          response.json();
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+</script>
+
+</html>

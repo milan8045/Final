@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/head'); %>
+  <body>
+    <%- include('layouts/header'); %>
+    <main>
+      <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>License No</th>
+              <th>Make</th>
+              <th>Model</th>
+              <th>Test Type</th>
+              <th>Result</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0;i< allApps.length;i++){ %>
+            <tr>
+              <td><%= allApps[i].firstName %></td>
+              <td><%= allApps[i].licenseNo %></td>
+              <td><%= allApps[i].carDetails?.make %></td>
+              <td><%= allApps[i].carDetails?.model %></td>
+              <td><%= allApps[i].testType %></td>
+              <td><%= allApps[i].result? allApps[i].result: "NA" %></td>
+              <td>
+                <a href="examiner?userId=<%= allApps[i].id %>">Select User</a>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <% if(singleUser) { %>
+        <form action="/addComment" method="post">
+          <h2 class="mt-5">Selected User Details</h2>
+          <div class="mb-3">
+            <label>First Name</label>
+            <input
+              disabled
+              value="<%= singleUser.firstName %>"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Last Name</label>
+            <input
+              disabled
+              value="<%= singleUser.lastName %>"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>License No</label>
+            <input
+              disabled
+              value="<%= singleUser.licenseNo %>"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Make</label>
+            <input
+              disabled
+              value="<%= singleUser.carDetails.make %>"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Model</label>
+            <input
+              disabled
+              value="<%= singleUser.carDetails.model %>"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Plate No</label>
+            <input
+              disabled
+              value="<%= singleUser.carDetails.plateNo %>"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Comment</label>
+            <input
+              name="comment"
+              value="<%= singleUser.comment %>"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Result</label>
+            <select
+              value="<%= singleUser.result %>"
+              class="form-select"
+              name="result"
+              id=""
+            >
+              <option disabled>Select</option>
+              <option value="Pass">Pass</option>
+              <option value="Fail">Fail</option>
+            </select>
+          </div>
+          <input
+            name="userId"
+            type="text"
+            hidden
+            value="<%= singleUser._id %>"
+          />
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <% } %>
+      </div>
+    </main>
+  </body>
+  <%- include('layouts/examinerScript'); %>
+</html>

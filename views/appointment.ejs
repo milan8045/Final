@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/head'); %>
+  <body>
+    <%- include('layouts/header'); %>
+    <main>
+      <div class="container">
+        <form id="appointmentForm" action="/appointment" method="get">
+          <h3><b>Create Appointment</b></h3>
+          <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              name="date"
+              id="appDate"
+              value="<%= date %>"
+              min="<%= minDate %>"
+              onchange="this.form.submit()"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="time" class="form-label">Time</label>
+            <select class="form-control" name="time" id="appTime">
+              <% for (let i=0; i< timeSlots.length ;i++){ %>
+              <option value="<%- timeSlots[i].time %>" 
+                <%- timeSlots[i].isTimeSlotTaken && "disabled" %>>
+                <%- timeSlots[i].time %>
+              </option>
+              <%}%>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <h5 style="color: red; text-align: center"><%- errorMsg %></h5>
+        </form>
+      </div>
+    </main>
+    <script>
+      document
+        .getElementById("appointmentForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          fetch("/appointment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              date: document.getElementById("appDate").value,
+              time: document.getElementById("appTime").value,
+            }),
+          })
+            .then((response) => {
+              response.json();
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>

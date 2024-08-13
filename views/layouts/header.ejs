@@ -1,0 +1,90 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand" href="/"><b>DriveTest App</b></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'Dashboard' ? 'active' : '' %>"
+              aria-current="page"
+              href="/"
+              >Dashboard</a
+            >
+          </li>
+          <% if(loggedIn && loggedIn.userType==="Driver"){%>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'G2 Portal' ? 'active' : '' %>"
+              href="g2"
+              >G2 Portal</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'G Portal' ? 'active' : '' %>"
+              href="g"
+              >G Portal</a
+            >
+          </li>
+          <%}%> <% if(loggedIn && loggedIn.userType==="Admin"){%>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'Appointment' ? 'active' : '' %>"
+              href="appointment"
+              >Book Appointment</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'Appointments' ? 'active' : '' %>"
+              href="appointments"
+              >Appointments</a
+            >
+          </li>
+
+          <%}%> <% if(loggedIn && loggedIn.userType==="Examiner"){%>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'Examiner' ? 'active' : '' %>"
+              href="examiner"
+              >Examiner</a
+            >
+          </li>
+
+          <%}%> <% if(loggedIn){%>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          <%}%> <%if(!loggedIn) {%>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'Login' ? 'active' : '' %>"
+              href="login"
+              >Login</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= pageTitle=== 'Sign up' ? 'active' : '' %>"
+              href="signup"
+              >Sign up</a
+            >
+          </li>
+          <%}%>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
